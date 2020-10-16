@@ -4,7 +4,32 @@ import xml.etree.ElementTree as ET
 import csv
 from tqdm import tqdm
 
-from test import all_truth
+f = open('./parcial1/truth.txt','r')
+import os
+os.system("clear")
+data = []
+while(True):
+	line = f.readline()
+	if not line:
+		break
+	data.append(line)
+
+f.close()
+
+all_truth = []
+
+
+n = len(data)
+for i in range(n):
+	data[i] = data[i].replace('\n','')
+
+
+for i in range(n):
+	new_data = data[i].split(':::')
+	all_truth.append(new_data)
+
+
+print(all_truth)
 def get_tweet(path):
     doc = ET.parse(path)
     root = doc.getroot()
@@ -28,11 +53,6 @@ def is_humam(user_id,all_truth):
             break
           
 
-bot = 'bc3b33dd99909e387475b536fab5eef'
-human = '59407dd42bda70c214da57fefe4c7764'
-x = is_humam(bot,all_truth)
-print(x)
-
 path = './parcial1/xml'
 all_names =  get_names(path)
 all_names_copy = all_names.copy() # tiene .xml
@@ -54,8 +74,4 @@ with open('data.csv', 'w') as file:
         path2 += actual_name
         tweets = get_tweet(path2)
         writer.writerow([username,tweets,human])
-
-    
-
-
 
